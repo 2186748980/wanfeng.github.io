@@ -20,24 +20,32 @@ try:
 except ImportError:
     raise SystemExit('json5 package missing')
 
+STATUS = []
+
 
 def load_source(src):
     cache = CACHE / f"{src['id']}.json5"
     try:
-        req = urllib.request.Request(src['url'], headers={'User-Agent': 'GKD-Merged/1.1'})
+        req = urllib.request.Request(src['url'], headers={'User-Agent': 'GKD-Merged/1.2'})
         with urllib.request.urlopen(req, timeout=60) as r:
             data = r.read()
         cache.write_bytes(data)
-        print(f"UPDATED {src['name']}: {len(data)} bytes")
+        STATUS.append({'id': src['id'], 'name': src['name'], 'download': 'ok', 'bytes': len(data)})
     except Exception as e:
         if not cache.exists():
-            print(f"WARNING {src['name']} unavailable; skipping: {e}")
+            STATUS.append({'id': src['id'], 'name': src['name'], 'download': 'failed', 'error': repr(e)})
             return None
-        print(f"WARNING {src['name']} download failed; using cache: {e}")
+        STATUS.append({'id': src['id'], 'name': src['name'], 'download': 'cache', 'error': repr(e)})
     try:
-        return json5.loads(cache.read_text(encoding='utf-8'))
+        data = json5.loads(cache.read_text(encoding='utf-8'))
+        if not isinstance(data, dict):
+            raise TypeError(f'root is {type(data).__name__}, expected object')
+        STATUS[-1]['parse'] = 'ok'
+        STATUS[-1]['sourceVersion'] = data.get('version')
+        return data
     except Exception as e:
-        print(f"WARNING {src['name']} parse failed; skipping: {e}")
+        STATUS[-1]['parse'] = 'failed'
+        STATUS[-1]['parseError'] = repr(e)
         return None
 
 
@@ -149,7 +157,9 @@ for s in SOURCES:
         loaded.append((s, d))
 
 if not loaded:
-    raise SystemExit('No upstream subscription could be loaded')
+    (OUT / 'merge-status.json').write_text(json.dumps({'ok': False, 'time': int(time.time()), 'sources': STATUS}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    print('No upstream subscription could be loaded; wrote gkd/merge-status.json')
+    raise SystemExit(0)
 
 result = {
     'id': 2186748980,
@@ -196,4 +206,5 @@ result['apps'] = apps
 
 (OUT / 'gkd.json5').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 (OUT / 'gkd.version.json5').write_text(json.dumps({'version': result['version']}) + '\n', encoding='utf-8')
+(OUT / 'merge-status.json').write_text(json.dumps({'ok': True, 'time': int(time.time()), 'sources': STATUS, 'apps': len(apps), 'globalGroups': len(result['globalGroups'])}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 print(f"Generated {OUT/'gkd.json5'}: {len(apps)} apps, {len(result['globalGroups'])} global groups")
