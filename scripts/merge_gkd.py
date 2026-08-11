@@ -26,7 +26,7 @@ STATUS = []
 def load_source(src):
     cache = CACHE / f"{src['id']}.json5"
     try:
-        req = urllib.request.Request(src['url'], headers={'User-Agent': 'GKD-Merged/1.2'})
+        req = urllib.request.Request(src['url'], headers={'User-Agent': 'GKD-Merged/1.3'})
         with urllib.request.urlopen(req, timeout=60) as r:
             data = r.read()
         cache.write_bytes(data)
@@ -55,6 +55,18 @@ def normalize_list(v):
     return v if isinstance(v, list) else [v]
 
 
+def ensure_rules_list(group):
+    """GKD allows rules to be either one object or an array; merge internally as an array."""
+    rules = group.get('rules')
+    if rules is None:
+        group['rules'] = []
+    elif isinstance(rules, dict):
+        group['rules'] = [rules]
+    elif not isinstance(rules, list):
+        group['rules'] = []
+    return group['rules']
+
+
 def fingerprint(obj):
     if not isinstance(obj, dict):
         return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
@@ -63,6 +75,10 @@ def fingerprint(obj):
 
 
 def append_rules(dst_rules, src_rules):
+    if isinstance(dst_rules, dict):
+        dst_rules = [dst_rules]
+    if not isinstance(dst_rules, list):
+        dst_rules = []
     used = {r.get('key') for r in dst_rules if isinstance(r, dict) and isinstance(r.get('key'), int)}
     existing = {fingerprint(r) for r in dst_rules}
     next_key = max(used, default=-1) + 1
@@ -93,6 +109,7 @@ def append_rules(dst_rules, src_rules):
         elif isinstance(nr.get('preKeys'), int):
             nr['preKeys'] = mapping.get(nr['preKeys'], nr['preKeys'])
         dst_rules.append(nr)
+    return dst_rules
 
 
 def merge_groups(dst_groups, src_groups):
@@ -105,7 +122,8 @@ def merge_groups(dst_groups, src_groups):
         name = sg.get('name')
         if name in by_name:
             dg = by_name[name]
-            append_rules(dg.setdefault('rules', []), normalize_list(sg.get('rules')))
+            ensure_rules_list(dg)
+            append_rules(dg['rules'], normalize_list(sg.get('rules')))
             for k, v in sg.items():
                 if k not in dg and k != 'rules':
                     dg[k] = v
@@ -133,7 +151,8 @@ def merge_global_groups(dst, src):
         name = sg.get('name')
         if name in by_name:
             dg = by_name[name]
-            append_rules(dg.setdefault('rules', []), normalize_list(sg.get('rules')))
+            ensure_rules_list(dg)
+            append_rules(dg['rules'], normalize_list(sg.get('rules')))
             for k, v in sg.items():
                 if k not in dg and k != 'rules':
                     dg[k] = v
@@ -194,6 +213,8 @@ for _, d in loaded:
         if aid not in apps_by_id:
             na = dict(a)
             na['groups'] = [dict(g) for g in normalize_list(a.get('groups')) if isinstance(g, dict)]
+            for g in na['groups']:
+                ensure_rules_list(g)
             apps_by_id[aid] = na
             apps.append(na)
         else:
