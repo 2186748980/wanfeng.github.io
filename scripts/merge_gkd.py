@@ -6,8 +6,8 @@ from pathlib import Path
 SOURCES = [
     {"id": "linarm", "name": "Lin-arm", "priority": 100, "url": "https://raw.githubusercontent.com/Lin-arm/GKD_subscription/main/dist/gkd.json5"},
     {"id": "ganlinte", "name": "ganlinte", "priority": 90, "url": "https://raw.githubusercontent.com/ganlinte/GKD-subscription/main/dist/ganlin_gkd.json5"},
-    {"id": "aisouler", "name": "AIsouler", "priority": 50, "url": "https://raw.githubusercontent.com/AIsouler/GKD_subscription/main/dist/AIsouler_gkd.json5"},
-    {"id": "adpro", "name": "Adpro", "priority": 40, "url": "https://raw.githubusercontent.com/Adpro-Team/GKD_subscription/main/dist/Adpro_gkd.json5"},
+    {"id": "aisouler", "name": "AIsouler（历史）", "priority": 50, "url": "https://raw.githubusercontent.com/q595002599/AIsouler_GKD_subscription/main/dist/AIsouler_gkd.json5"},
+    {"id": "adpro", "name": "Adpro（历史）", "priority": 40, "url": "https://raw.githubusercontent.com/Adpro-Team/GKD_subscription/main/dist/Adpro_gkd.json5"},
 ]
 
 CACHE = Path('cache/sources')
@@ -24,16 +24,21 @@ except ImportError:
 def load_source(src):
     cache = CACHE / f"{src['id']}.json5"
     try:
-        req = urllib.request.Request(src['url'], headers={'User-Agent': 'GKD-Merged/1.0'})
+        req = urllib.request.Request(src['url'], headers={'User-Agent': 'GKD-Merged/1.1'})
         with urllib.request.urlopen(req, timeout=60) as r:
             data = r.read()
         cache.write_bytes(data)
         print(f"UPDATED {src['name']}: {len(data)} bytes")
     except Exception as e:
         if not cache.exists():
-            raise RuntimeError(f"Cannot download {src['name']}: {e}")
+            print(f"WARNING {src['name']} unavailable; skipping: {e}")
+            return None
         print(f"WARNING {src['name']} download failed; using cache: {e}")
-    return json5.loads(cache.read_text(encoding='utf-8'))
+    try:
+        return json5.loads(cache.read_text(encoding='utf-8'))
+    except Exception as e:
+        print(f"WARNING {src['name']} parse failed; skipping: {e}")
+        return None
 
 
 def normalize_list(v):
@@ -140,9 +145,11 @@ def merge_global_groups(dst, src):
 loaded = []
 for s in SOURCES:
     d = load_source(s)
-    if not isinstance(d, dict):
-        raise RuntimeError(f"{s['name']} is not an object")
-    loaded.append((s, d))
+    if isinstance(d, dict):
+        loaded.append((s, d))
+
+if not loaded:
+    raise SystemExit('No upstream subscription could be loaded')
 
 result = {
     'id': 2186748980,
