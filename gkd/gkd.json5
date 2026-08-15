@@ -1,7 +1,7 @@
 {
   "id": 2186748980,
   "name": "忒苫的 GKD 综合订阅",
-  "version": 1786735080,
+  "version": 1786758789,
   "author": "2186748980 + upstream contributors",
   "description": "自动整合 Lin-arm、ganlinte、AIsouler、Adpro；高优先级来源优先，低优先级来源用于补充缺失规则。",
   "checkUpdateUrl": "./gkd.version.json5",
@@ -79811,9 +79811,15 @@
           "desc": "弹窗-点击[放弃支付]",
           "rules": [
             {
-              "activityIds": "com.ss.android.ugc.aweme.main.MainActivity",
+              "activityIds": [
+                "com.ss.android.ugc.aweme.main.MainActivity",
+                "com.bytedance.locallife.page.pdp.LifePdpActivity"
+              ],
               "matches": "[visibleToUser=true][desc^=\"放弃支付\"]",
-              "snapshotUrls": "https://i.gkd.li/i/30941609",
+              "snapshotUrls": [
+                "https://i.gkd.li/i/30941609",
+                "https://i.gkd.li/i/31027911"
+              ],
               "exampleUrls": "https://e.gkd.li/f93e7986-a67c-4f9f-a553-82d683a0d42e"
             }
           ]
@@ -84079,6 +84085,23 @@
           "activityIds": [
             "com.tencent.mm.framework.app.UIPageFragmentActivity",
             ".ui.LauncherUI"
+          ]
+        },
+        {
+          "key": 27,
+          "name": "功能类-收款后自动[返回]",
+          "desc": "已收款,点击左上角退出该界面",
+          "rules": [
+            {
+              "fastQuery": true,
+              "activityIds": ".plugin.remittance.ui.RemittanceDetailUI",
+              "matches": [
+                "[text*=\"已收款\"] + [text^=\"¥\"]",
+                "[vid=\"actionbar_up_indicator\"][clickable=true]"
+              ],
+              "snapshotUrls": "https://i.gkd.li/i/31040687",
+              "exampleUrls": "https://e.gkd.li/49b2d5ee-74a4-48e2-818a-8d3ef4c98930"
+            }
           ]
         },
         {
@@ -116675,6 +116698,7 @@
           "name": "局部广告-视频页广告",
           "desc": "领取大会员月卡,B站免流星卡",
           "fastQuery": true,
+          "activityIds": "com.bilibili.ship.theseus.detail.UnitedBizDetailsActivity",
           "rules": [
             {
               "key": 1,
@@ -116693,13 +116717,18 @@
             },
             {
               "key": 2,
-              "activityIds": "com.bilibili.ship.theseus.detail.UnitedBizDetailsActivity",
               "matches": "@[vid=\"close\"][visibleToUser=true] - [text$=\"免费领B站大会员\"]",
               "exampleUrls": "https://e.gkd.li/cd934dfc-666e-4562-8b77-aac95f73694e",
               "snapshotUrls": "https://i.gkd.li/i/18165189"
             },
             {
               "key": 3,
+              "matches": "[desc=\"close\"] < @[clickable=true] <3 View <2 [childCount=4] < View <2 View < ComposeView < FrameLayout < [vid=\"fl_tab_pager_container\"]",
+              "snapshotUrls": "https://i.gkd.li/i/31067294",
+              "exampleUrls": "https://e.gkd.li/696de68a-489f-4d42-b652-afbdf7351145"
+            },
+            {
+              "key": 4,
               "matchTime": 10000,
               "actionMaximum": 1,
               "activityIds": [
@@ -116714,7 +116743,7 @@
               ]
             },
             {
-              "key": 4,
+              "key": 5,
               "fastQuery": true,
               "activityIds": "com.bilibili.ship.theseus.detail.UnitedBizDetailsActivity",
               "matches": "@[vid=\"close\"][visibleToUser=true] - [text$=\"免费领B站大会员\"]",
