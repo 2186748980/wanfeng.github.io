@@ -1,7 +1,7 @@
 {
   "id": 2186748980,
   "name": "忒苫的 GKD 综合订阅",
-  "version": 1786906197,
+  "version": 1786931905,
   "author": "2186748980 + upstream contributors",
   "description": "自动整合 Lin-arm、ganlinte、AIsouler、Adpro；高优先级来源优先，低优先级来源用于补充缺失规则。",
   "checkUpdateUrl": "./gkd.version.json5",
@@ -30357,7 +30357,7 @@
           "rules": [
             {
               "key": 0,
-              "matches": "@[name$=\"ImageView\" || getChild(0).name$=\"ImageView\"][clickable=true][visibleToUser=true][width<102 && height<102] <n [childCount>1] >(2,3) [text*=\"查看\" || text$=\"优惠\" || text^=\"立即\" || text^=\"马上\" || text*=\"参与\" || text*=\"免费\" || (text*=\"领\" && text*=\"券\") || (text*=\"返\" && text*=\"金币\")][text.length<10]",
+              "matches": "@[(name$=\"ImageView\" || getChild(0).name$=\"ImageView\") && desc!=\"back_unfold\"][clickable=true][visibleToUser=true][width<102 && height<102] <n [childCount>1] >(2,3) [text*=\"查看\" || text$=\"优惠\" || text^=\"立即\" || text^=\"马上\" || text*=\"参与\" || text*=\"免费\" || (text*=\"领\" && text*=\"券\") || (text*=\"返\" && text*=\"金币\")][text.length<10]",
               "snapshotUrls": [
                 "https://i.gkd.li/i/12908734",
                 "https://i.gkd.li/i/18138903",
@@ -30370,7 +30370,10 @@
                 "https://i.gkd.li/i/14548657",
                 "https://i.gkd.li/i/14810480"
               ],
-              "excludeSnapshotUrls": "https://i.gkd.li/i/28821485",
+              "excludeSnapshotUrls": [
+                "https://i.gkd.li/i/28821485",
+                "https://i.gkd.li/i/31111672"
+              ],
               "exampleUrls": "https://e.gkd.li/3de0d5d9-0c02-4fe7-b5e8-b9fdb6688f8e"
             },
             {
@@ -39451,6 +39454,25 @@
         },
         {
           "key": 16,
+          "name": "其他-xp模块更新提示",
+          "desc": "ReVanced Xposed 有更新,点击[取消]",
+          "rules": [
+            {
+              "fastQuery": true,
+              "actionMaximum": 1,
+              "resetMatch": "app",
+              "activityIds": "com.google.android.apps.youtube.app.watchwhile.MainActivity",
+              "matches": [
+                "[text*=\"ReVanced Xposed\"]",
+                "[text=\"Cancel\"][clickable=true]"
+              ],
+              "snapshotUrls": "https://i.gkd.li/i/31118557",
+              "exampleUrls": "https://e.gkd.li/5f07de6a-1e4d-4297-a516-ccc695df72fc"
+            }
+          ]
+        },
+        {
+          "key": 17,
           "name": "全屏广告-首页-会员广告",
           "activityIds": "com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity",
           "rules": [],
@@ -39458,7 +39480,7 @@
           "enable": false
         },
         {
-          "key": 17,
+          "key": 18,
           "name": "全屏广告-订阅浮窗广告",
           "activityIds": "com.google.android.apps.youtube.app.watchwhile.MainActivity",
           "rules": [],
@@ -39466,7 +39488,7 @@
           "enable": false
         },
         {
-          "key": 18,
+          "key": 19,
           "name": "局部广告-视频播放页-贴片广告",
           "activityIds": [
             "com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity",
@@ -39496,7 +39518,7 @@
           "enable": false
         },
         {
-          "key": 19,
+          "key": 20,
           "name": "局部广告-视频播放页-赞助商广告",
           "activityIds": [
             "com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity",
@@ -39512,7 +39534,7 @@
           "enable": false
         },
         {
-          "key": 20,
+          "key": 21,
           "name": "局部广告-首页-赞助商广告",
           "activityIds": "com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity",
           "rules": [],
@@ -39520,7 +39542,7 @@
           "enable": false
         },
         {
-          "key": 21,
+          "key": 22,
           "name": "局部广告-订阅YouTube Premium浮窗广告",
           "activityIds": "com.google.android.apps.youtube.app.watchwhile.MainActivity",
           "rules": [],
