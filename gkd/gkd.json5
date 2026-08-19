@@ -1,7 +1,7 @@
 {
   "id": 2186748980,
   "name": "忒苫的 GKD 综合订阅",
-  "version": 1787079663,
+  "version": 1787104580,
   "author": "2186748980 + upstream contributors",
   "description": "自动整合 Lin-arm、ganlinte、AIsouler、Adpro；高优先级来源优先，低优先级来源用于补充缺失规则。",
   "checkUpdateUrl": "./gkd.version.json5",
@@ -29304,15 +29304,34 @@
             {
               "key": 4,
               "activityIds": ".group.activity.GroupTopicActivity",
+              "matches": "[vid=\"ad_not_interest\" || vid=\"group_ad_not_interest\"][clickable=true]",
+              "snapshotUrls": [
+                "https://i.gkd.li/i/31183170",
+                "https://i.gkd.li/i/31183359"
+              ]
+            },
+            {
+              "key": 5,
+              "activityIds": ".group.activity.GroupTopicActivity",
               "matches": "@View[clickable=true][childCount=0][visibleToUser=true] < FrameLayout[desc^=\"dislike\"] -2 FrameLayout >2 [text=\"广告\"]",
               "exampleUrls": "https://e.gkd.li/11d3ea75-c640-4b91-942e-3bf83b2e5f5e",
               "snapshotUrls": "https://i.gkd.li/i/19621152"
             },
             {
-              "key": 5,
+              "key": 6,
               "activityIds": ".group.activity.GroupTopicActivity",
-              "matches": "@Image[childCount=0][visibleToUser=true][text=\"\"] < View[childCount=1] -2 View >2 [childCount=0][text=\"广告\"] <<n [vid=\"structure_header_container\"]",
-              "snapshotUrls": "https://i.gkd.li/i/18424747"
+              "matches": "@Image[childCount=0][visibleToUser=true][text=\"\"] < View[childCount=1] -2 View >2 [childCount=0][text=\"广告\"] <<n [vid=\"structure_header_container\" || vid=\"llHeaderContainer\"]",
+              "snapshotUrls": [
+                "https://i.gkd.li/i/18424747",
+                "https://i.gkd.li/i/31182864"
+              ]
+            },
+            {
+              "key": 7,
+              "activityIds": ".group.activity.GroupTopicActivity",
+              "matches": "@ImageView[visibleToUser=true][width<63 && height<63] <<n [childCount=2] >2 [text^=\"应​用​名​称​：\"][text.length>30]",
+              "snapshotUrls": "https://i.gkd.li/i/31183730",
+              "excludeSnapshotUrls": "https://i.gkd.li/i/31183914"
             },
             {
               "key": 20,
@@ -29320,17 +29339,21 @@
                 1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6,
+                7
               ],
               "name": "②点击[不感兴趣]",
-              "matches": "@[clickable=true] > [text=\"不感兴趣\"]",
+              "matches": "@[clickable=true] >(1,2) [text=\"不感兴趣\"]",
               "snapshotUrls": [
                 "https://i.gkd.li/i/18424404",
                 "https://i.gkd.li/i/18424419",
                 "https://i.gkd.li/i/18424574",
                 "https://i.gkd.li/i/18424711",
                 "https://i.gkd.li/i/19615333",
-                "https://i.gkd.li/i/29295746"
+                "https://i.gkd.li/i/29295746",
+                "https://i.gkd.li/i/31182735"
               ],
               "activityIds": [
                 ".activity.SplashActivity",
@@ -29362,6 +29385,27 @@
             }
           ],
           "enable": false
+        },
+        {
+          "key": 6,
+          "name": "功能类-长按图片后[保存]",
+          "desc": "点击[保存]",
+          "rules": [
+            {
+              "fastQuery": true,
+              "activityIds": [
+                ".group.activity.GroupTopicActivity",
+                ".baseproject.image.ImageActivity"
+              ],
+              "matches": "[text=\"保存\" || text=\"保存图片到相册\"][clickable=true]",
+              "snapshotUrls": [
+                "https://i.gkd.li/i/31184441",
+                "https://i.gkd.li/i/31184665",
+                "https://i.gkd.li/i/31184797"
+              ],
+              "exampleUrls": "https://e.gkd.li/f6c2dab4-e87e-4ae5-a778-b97d6cc2b760"
+            }
+          ]
         },
         {
           "key": 8,
@@ -53826,6 +53870,34 @@
       ]
     },
     {
+      "id": "com.liuguang.down",
+      "name": "流光助手",
+      "groups": [
+        {
+          "key": 1,
+          "name": "开屏广告",
+          "matchTime": 10000,
+          "actionMaximum": 1,
+          "actionMaximumKey": 0,
+          "resetMatch": "app",
+          "priorityTime": 10000,
+          "rules": [
+            {
+              "key": 0,
+              "fastQuery": true,
+              "matches": "[text*=\"跳过\"][clickable=true][desc.length<10]"
+            },
+            {
+              "key": 1,
+              "matches": "[clickable=true][desc*=\"跳过\"][desc.length<10]",
+              "snapshotUrls": "https://i.gkd.li/i/31147124"
+            }
+          ],
+          "order": -10
+        }
+      ]
+    },
+    {
       "id": "com.liuzh.deviceinfo",
       "name": "设备信息",
       "groups": [
@@ -61340,6 +61412,24 @@
             }
           ],
           "enable": false
+        }
+      ]
+    },
+    {
+      "id": "com.mszmapp.detective",
+      "name": "百变大侦探",
+      "groups": [
+        {
+          "key": 1,
+          "name": "全屏广告-弹窗广告",
+          "rules": [
+            {
+              "fastQuery": true,
+              "activityIds": ".module.home.HomeActivity",
+              "matches": "[vid=\"rvActivityPopups\"] + [vid=\"iv_close\"]",
+              "snapshotUrls": "https://i.gkd.li/i/31164272"
+            }
+          ]
         }
       ]
     },
@@ -81307,6 +81397,19 @@
       "groups": [
         {
           "key": 1,
+          "name": "全屏广告-弹窗广告",
+          "rules": [
+            {
+              "fastQuery": true,
+              "activityIds": ".common.minuscampaign.MinusDialogActivity",
+              "matches": "@[clickable=true][width<151] - [vid=\"minus_dialog\"]",
+              "snapshotUrls": "https://i.gkd.li/i/31164402",
+              "exampleUrls": "https://e.gkd.li/05265ff0-580f-4e4c-8432-9f45626beb5c"
+            }
+          ]
+        },
+        {
+          "key": 2,
           "name": "开屏广告",
           "fastQuery": true,
           "matchTime": 10000,
@@ -117789,6 +117892,21 @@
         },
         {
           "key": 33,
+          "name": "其他-完善信息弹窗",
+          "desc": "按[返回键]",
+          "rules": [
+            {
+              "fastQuery": true,
+              "action": "back",
+              "activityIds": ".MainActivityV2",
+              "matches": "[vid=\"design_bottom_sheet\"] >2 [vid=\"title\"][text=\"完善信息，获取精准推荐\"]",
+              "snapshotUrls": "https://i.gkd.li/i/31165755",
+              "exampleUrls": "https://e.gkd.li/d7565e98-d424-49e1-a137-6b7b46c48cc7"
+            }
+          ]
+        },
+        {
+          "key": 34,
           "name": "局部广告-动态推荐广告卡片",
           "desc": "点击卡片右上角[广告]按钮-点击不感兴趣",
           "fastQuery": true,
@@ -117809,7 +117927,7 @@
           "enable": false
         },
         {
-          "key": 34,
+          "key": 35,
           "name": "局部广告-视频底部与评论区中间卡片式广告",
           "desc": "需点击二次弹窗 屏蔽原因",
           "fastQuery": true,
@@ -117849,7 +117967,7 @@
           "enable": false
         },
         {
-          "key": 35,
+          "key": 36,
           "name": "其他-悬浮窗功能",
           "desc": "暂不开启",
           "fastQuery": true,
@@ -117874,7 +117992,7 @@
           "enable": false
         },
         {
-          "key": 36,
+          "key": 37,
           "name": "局部广告-视频悬浮广告",
           "desc": "领取大会员月卡,B站免流星卡",
           "fastQuery": true,
@@ -117896,7 +118014,7 @@
           "enable": false
         },
         {
-          "key": 37,
+          "key": 38,
           "name": "局部广告-直播间卡片广告",
           "desc": "直播间底部售卖卡片-点击右上角x",
           "fastQuery": true,
@@ -117932,7 +118050,7 @@
         },
         {
           "enable": false,
-          "key": 38,
+          "key": 39,
           "name": "权限提示-请求通知权限弹窗",
           "fastQuery": true,
           "matchTime": 10000,
@@ -117950,7 +118068,7 @@
         },
         {
           "enable": false,
-          "key": 39,
+          "key": 40,
           "name": "局部广告-首页-推荐视频卡片广告",
           "fastQuery": true,
           "activityIds": "tv.danmaku.bili.MainActivityV2",
@@ -117975,7 +118093,7 @@
           ]
         },
         {
-          "key": 40,
+          "key": 41,
           "name": "通知提示-订阅感兴趣的通知",
           "fastQuery": true,
           "actionMaximum": 1,
@@ -117993,7 +118111,7 @@
           "enable": false
         },
         {
-          "key": 41,
+          "key": 42,
           "name": "分段广告-视频底部与评论区中间卡片广告",
           "desc": "需点击二次弹窗 屏蔽原因",
           "fastQuery": true,
@@ -118041,7 +118159,7 @@
           "enable": false
         },
         {
-          "key": 42,
+          "key": 43,
           "name": "局部广告-动态推荐卡片广告",
           "desc": "点击卡片右上角[广告]按钮-点击不感兴趣",
           "fastQuery": true,
