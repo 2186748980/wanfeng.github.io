@@ -1,7 +1,7 @@
 {
   "id": 2186748980,
   "name": "忒苫的 GKD 综合订阅",
-  "version": 1787252690,
+  "version": 1787277689,
   "author": "2186748980 + upstream contributors",
   "description": "自动整合 Lin-arm、ganlinte、AIsouler、Adpro；高优先级来源优先，低优先级来源用于补充缺失规则。",
   "checkUpdateUrl": "./gkd.version.json5",
@@ -42811,6 +42811,19 @@
               "activityIds": "com.hihonor.adsdk.reward.RewardActivity",
               "matches": "[vid=\"ad_volume_close\"] > [vid=\"ad_video_volume\"][clickable=true][visibleToUser=true]",
               "snapshotUrls": "https://i.gkd.li/i/31094038"
+            }
+          ]
+        },
+        {
+          "key": 3,
+          "name": "全屏广告-弹窗广告",
+          "rules": [
+            {
+              "fastQuery": true,
+              "activityIds": "com.hihonor.adsdk.reward.RewardActivity",
+              "matches": "[vid=\"ad_close_dialog\"][clickable=true]",
+              "snapshotUrls": "https://i.gkd.li/i/31248363",
+              "exampleUrls": "https://e.gkd.li/457f1d00-a7ea-43cb-9263-be9a012bf310"
             }
           ]
         }
@@ -92855,19 +92868,16 @@
         {
           "key": 9,
           "name": "局部广告-右侧悬浮广告",
-          "actionMaximum": 1,
-          "resetMatch": "app",
           "rules": [
             {
               "fastQuery": true,
-              "position": {
-                "left": "width * 0.8893",
-                "top": "width * 0.4607"
-              },
               "activityIds": ".activity.UPActivityMain",
-              "matches": "@[vid=\"frog_float\"][visibleToUser=true] >2 [vid=\"close_view\"]",
-              "exampleUrls": "https://m.gkd.li/57941037/0f4f6a7f-55ce-4f87-a4cb-97e9c7107359",
-              "snapshotUrls": "https://i.gkd.li/i/14586427"
+              "matches": "[vid=\"frog_float\"] >2 [vid=\"close_view\"][clickable=true]",
+              "snapshotUrls": [
+                "https://i.gkd.li/i/14586427",
+                "https://i.gkd.li/i/31259720"
+              ],
+              "exampleUrls": "https://m.gkd.li/57941037/0f4f6a7f-55ce-4f87-a4cb-97e9c7107359"
             },
             {
               "matches": "[id=\"com.unionpay:id/frog_float\"] >2 [id=\"com.unionpay:id/close_view\"][visibleToUser=true]",
@@ -92885,6 +92895,8 @@
               "snapshotUrls": "https://i.gkd.li/i/14586427"
             }
           ],
+          "actionMaximum": 1,
+          "resetMatch": "app",
           "fastQuery": true,
           "activityIds": [
             "com.unionpay.activity.UPActivityMain"
@@ -92902,8 +92914,11 @@
             {
               "key": 0,
               "activityIds": ".activity.UPActivityMain",
-              "matches": "[vid=\"view_locate_close\"]",
-              "snapshotUrls": "https://i.gkd.li/i/13634882"
+              "matches": "@[clickable=true] > [vid=\"locate_iv_close\"]",
+              "snapshotUrls": [
+                "https://i.gkd.li/i/13634882",
+                "https://i.gkd.li/i/31263858"
+              ]
             },
             {
               "key": 1,
