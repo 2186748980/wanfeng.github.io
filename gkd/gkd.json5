@@ -1,7 +1,7 @@
 {
   "id": 2186748980,
   "name": "忒苫的 GKD 综合订阅",
-  "version": 1787338856,
+  "version": 1787363649,
   "author": "2186748980 + upstream contributors",
   "description": "自动整合 Lin-arm、ganlinte、AIsouler、Adpro；高优先级来源优先，低优先级来源用于补充缺失规则。",
   "checkUpdateUrl": "./gkd.version.json5",
@@ -78871,7 +78871,8 @@
             ".main.MainActivity",
             "com.bytedance.ies.ugc.aweme.photos.detail.flow.page.FlowPageActivity",
             ".searcharticle.detail.ArticleDetailActivity",
-            ".search.activity.SearchResultActivity"
+            ".search.activity.SearchResultActivity",
+            ".detail.ultra.ui.UltraDetailActivity"
           ],
           "rules": [
             {
@@ -78893,7 +78894,8 @@
               "matches": "[text^=\"展开\"][text$=\"回复\"] <2 @[clickable=true][childCount=3] <<n ViewPager <(3,4) LinearLayout + [childCount=2] > [desc$=\"评论区\"] + [vid=\"back_btn\"]",
               "snapshotUrls": [
                 "https://i.gkd.li/i/29811099",
-                "https://i.gkd.li/i/29811533"
+                "https://i.gkd.li/i/29811533",
+                "https://i.gkd.li/i/31308121"
               ]
             }
           ]
@@ -78912,6 +78914,7 @@
           ],
           "rules": [
             {
+              "key": 1,
               "matches": "@[clickable=true] > [text^=\"展开更多\"]",
               "snapshotUrls": [
                 "https://i.gkd.li/i/25619324",
@@ -78921,6 +78924,11 @@
                 "https://e.gkd.li/c9f1e163-4fa9-42bb-b5a5-4c9de6f286c2",
                 "https://e.gkd.li/afea1f82-e50c-4ef0-9f0a-a2ceec00c03b"
               ]
+            },
+            {
+              "key": 2,
+              "matches": "[text^=\"展开更多\"] <2 @[clickable=true][childCount=3] <<n ViewPager <(3,4) LinearLayout + [childCount=2] > [desc$=\"评论区\"] + [vid=\"back_btn\"]",
+              "snapshotUrls": "https://i.gkd.li/i/31308553"
             }
           ]
         },
@@ -99877,11 +99885,12 @@
                 "com.xingin.matrix.notedetail.NoteDetailActivity",
                 "com.xingin.matrix.detail.activity.DetailFeedActivity"
               ],
-              "matches": "@[clickable=true] >(1,2) [vid=\"loadMoreTV\"][text^=\"展开\"][text$=\"条回复\"]",
+              "matches": "@[clickable=true] >(1,2) [text^=\"展开\"][text$=\"条回复\"][text.length<12]",
               "snapshotUrls": [
                 "https://i.gkd.li/i/25048251",
                 "https://i.gkd.li/i/25823242",
-                "https://i.gkd.li/i/27204200"
+                "https://i.gkd.li/i/27204200",
+                "https://i.gkd.li/i/31308354"
               ],
               "exampleUrls": [
                 "https://e.gkd.li/a211ebb1-2177-4264-9a60-280a5f8e2777"
@@ -100119,11 +100128,11 @@
                 "com.xingin.matrix.notedetail.NoteDetailActivity",
                 "com.xingin.matrix.detail.activity.DetailFeedActivity"
               ],
-              "matches": "@[clickable=true] >(1,2) [vid=\"loadMoreTV\"][text=\"展开更多回复\"]",
+              "matches": "@[clickable=true] >(1,2) [text=\"展开更多回复\"]",
               "snapshotUrls": [
                 "https://i.gkd.li/i/25048251",
-                "https://i.gkd.li/i/25823242",
-                "https://i.gkd.li/i/27204288"
+                "https://i.gkd.li/i/27204288",
+                "https://i.gkd.li/i/31308389"
               ],
               "exampleUrls": [
                 "https://e.gkd.li/a211ebb1-2177-4264-9a60-280a5f8e2777"
