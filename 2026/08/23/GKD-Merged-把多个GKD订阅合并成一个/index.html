@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GKD-Merged：把多个 GKD 订阅合并成一个 | 鱼</title><meta name="author" content="鱼"><meta name="description" content="GKD-Merged 项目记录：多源订阅、解析、标准化、去重、冲突处理与 GitHub Actions 自动更新。"><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css"><style>.post-content{max-width:900px;margin:40px auto;padding:32px;background:#fff;border-radius:14px;line-height:1.9}.post-content h1{font-size:32px}.post-content h2{margin-top:36px}.post-content code{background:#f3f5f7;padding:2px 6px;border-radius:5px}.post-content pre{background:#f6f8fa;padding:16px;border-radius:10px;overflow:auto}</style></head><body><main class="post-content"><h1>GKD-Merged：把多个 GKD 订阅合并成一个</h1><p><strong>日期：</strong>2026-08-23　<strong>作者：</strong>鱼</p><blockquote>不再维护一长串订阅地址，让规则获取、合并、去重和更新交给 GitHub Actions。</blockquote><h2>这个项目解决什么问题</h2><p>GKD 可以通过订阅获取大量规则，但不同社区订阅之间存在重复、覆盖范围不同以及更新频率不同的问题。GKD-Merged 的思路很简单：定期获取多个公开订阅，把它们统一解析后合并成一个综合订阅。</p><h2>工作流程</h2><pre>多个上游订阅
+      ↓
+下载 / 缓存
+      ↓
+JSON5 解析与标准化
+      ↓
+按优先级合并
+      ↓
+指纹去重 / key 冲突处理
+      ↓
+生成综合订阅
+      ↓
+GKD 使用</pre><h2>为什么不是简单拼接</h2><p>不同来源之间可能包含同一个 APP 的规则，也可能出现 key 冲突或 preKeys 依赖关系。项目会根据来源优先级选择规则，同时用低优先级来源补充活跃来源没有覆盖的内容。</p><p>目前设计中，Lin-arm 和 ganlinte 属于主要/活跃来源，AIsouler 和 Adpro-Team 作为历史规则补充来源。历史来源并不代表规则全部失效，有些旧规则仍然可能覆盖活跃来源没有包含的 APP。</p><h2>自动更新</h2><p>项目通过 GitHub Actions 默认每 6 小时检查一次上游。只有最终规则内容发生变化时才产生新的综合版本，因此不会因为 Actions 单纯运行了一次就不断增加版本号。</p><p>版本采用 <code>YYYYMMDDNN</code> 格式，例如 <code>2026081101</code> 表示 2026 年 8 月 11 日当天第 1 次实际内容更新。</p><h2>最终使用方式</h2><p>安装 GKD 后只需要添加一个综合订阅地址：</p><pre>https://2186748980.github.io/GKD-Merged/gkd/gkd.json5</pre><p>备用 Raw 地址：</p><pre>https://raw.githubusercontent.com/2186748980/GKD-Merged/main/gkd/gkd.json5</pre><h2>项目状态</h2><p>这是一个个人维护的第三方社区订阅聚合项目，不是 GKD 官方项目，也不代表任何上游订阅作者的官方立场。项目本身主要负责聚合、构建、缓存和发布。</p><h2>项目地址</h2><p><a href="https://github.com/2186748980/GKD-Merged">GitHub：2186748980/GKD-Merged</a></p></main></body></html>
