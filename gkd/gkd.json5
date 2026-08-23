@@ -1,7 +1,7 @@
 {
   "id": 2186748980,
   "name": "忒苫的 GKD 综合订阅",
-  "version": 1787490363,
+  "version": 1787511095,
   "author": "2186748980 + upstream contributors",
   "description": "自动整合 Lin-arm、ganlinte、AIsouler、Adpro；高优先级来源优先，低优先级来源用于补充缺失规则。",
   "checkUpdateUrl": "./gkd.version.json5",
